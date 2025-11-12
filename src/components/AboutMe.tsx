@@ -3,19 +3,18 @@ import {characters, period_month} from "../utils/constants.ts";
 import type {HeroInfo} from "../utils/types";
 import {useParams} from "react-router";
 
-const AboutMe = ({setHeroName}: { setHeroName: (name: string) => void }) => {
+const AboutMe = ({setHeroKey}: { setHeroKey: (name: string) => void }) => {
   const [hero, setHero] = useState<HeroInfo>();
   const {heroId = 'luke'} = useParams();
 
   useEffect(() => {
-    if (!(heroId in characters)) {
-      return;
+    if (heroId in characters) {
+      setHeroKey(heroId);
     }
 
-    const hero = JSON.parse(localStorage.getItem(heroId)!);
-    if (hero && ((Date.now() - hero.timestamp) < period_month)) {
-      setHero(hero.payload);
-      setHeroName(hero.payload.name);
+    const heroCache = JSON.parse(localStorage.getItem(heroId)!);
+    if (heroCache && ((Date.now() - heroCache.timestamp) < period_month)) {
+      setHero(heroCache.payload);
     } else {
       fetch(characters[heroId].url)
         .then(response => response.json())
@@ -31,14 +30,13 @@ const AboutMe = ({setHeroName}: { setHeroName: (name: string) => void }) => {
             eye_color: data.eye_color
           } as HeroInfo;
           setHero(info);
-          setHeroName(info.name);
           localStorage.setItem(heroId, JSON.stringify({
             payload: info,
             timestamp: Date.now()
           }));
         })
     }
-  }, [heroId])
+  }, [heroId, setHeroKey]);
 
   return (
     <>

@@ -1,14 +1,15 @@
 import Navigation from "./Navigation.tsx";
+import type {Hero} from "../utils/types";
 
 interface HeaderProps {
-  heroName: string,
+  hero: Hero
 }
 
-const Header = ({heroName}: HeaderProps) => {
+const Header = ({hero}: HeaderProps) => {
   return (
     <header className="rounded-t-3xl bg-grey">
       <Navigation />
-      <h1 className="text-center py-6 text-4xl">{heroName}</h1>
+      <h1 className="text-center py-6 text-4xl">{hero.name}</h1>
     </header>
   );
 };

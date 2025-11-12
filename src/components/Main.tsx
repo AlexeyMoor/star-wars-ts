@@ -6,12 +6,12 @@ import {navItems} from "../utils/constants.ts";
 import {Route, Routes} from "react-router";
 import ErrorPage from "./ErrorPage.tsx";
 
-const Main = ({setHeroName}: { setHeroName: (name: string) => void }) => {
+const Main = ({setHeroKey}: { setHeroKey: (name: string) => void }) => {
   return (
     <Routes>
       {['/', `${navItems[0]}`].map(path => <Route key={path} path={path} element={<Home />} />)}
       {[`${navItems[1]}`, `${navItems[1]}/:heroId`].map(path =>
-        <Route key={path} path={path} element={<AboutMe setHeroName={setHeroName} />} />)}
+        <Route key={path} path={path} element={<AboutMe setHeroKey={setHeroKey} />} />)}
       <Route path={`${navItems[2]}`} element={<StarWars />} />
       <Route path={`${navItems[3]}`} element={<Contact />} />
       <Route path={'*'} element={<ErrorPage />} />
