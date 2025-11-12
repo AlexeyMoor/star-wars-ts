@@ -12,9 +12,9 @@ const AboutMe = ({setHeroKey}: { setHeroKey: (name: string) => void }) => {
       setHeroKey(heroId);
     }
 
-    const heroCache = JSON.parse(localStorage.getItem(heroId)!);
-    if (heroCache && ((Date.now() - heroCache.timestamp) < period_month)) {
-      setHero(heroCache.payload);
+    const hero = JSON.parse(localStorage.getItem(heroId)!);
+    if (hero && ((Date.now() - hero.timestamp) < period_month)) {
+      setHero(hero.payload);
     } else {
       fetch(characters[heroId].url)
         .then(response => response.json())
