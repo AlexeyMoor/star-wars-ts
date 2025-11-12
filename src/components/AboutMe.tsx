@@ -3,14 +3,16 @@ import {characters, defaultHero, period_month} from "../utils/constants.ts";
 import type {HeroInfo} from "../utils/types";
 import {useParams} from "react-router";
 import {SWContext} from "../utils/context.ts";
+import ErrorPage from "./ErrorPage.tsx";
 
 const AboutMe = () => {
-  const [hero, setHero] = useState<HeroInfo>();
   const {heroId = defaultHero} = useParams();
+  const heroExists = heroId in characters;
   const {changeHero} = useContext(SWContext);
+  const [hero, setHero] = useState<HeroInfo>();
 
   useEffect(() => {
-    if (!(heroId in characters)) {
+    if (!heroExists) {
       return;
     }
     changeHero(heroId);
@@ -36,9 +38,14 @@ const AboutMe = () => {
             payload: info,
             timestamp: Date.now()
           }));
-        })
+        });
     }
-  }, []);
+  }, [heroId, changeHero, heroExists]);
+
+  if (!heroExists) {
+    return <ErrorPage/>;
+  }
+
 
   return (
     <>
