@@ -7,7 +7,7 @@ const Hero = () => {
 
   return (
     <section className="float-left w-1/4 mr-4 mt-2">
-      <img className="w-full shadow-hero" src={characters[hero].img} alt={characters[hero].name} />
+      <img className="rounded-2xl w-full shadow-hero" src={characters[hero].img} alt={characters[hero].name} />
     </section>
   );
 };

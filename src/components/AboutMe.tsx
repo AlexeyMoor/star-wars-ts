@@ -6,13 +6,12 @@ import {SWContext} from "../utils/context.ts";
 import ErrorPage from "./ErrorPage.tsx";
 
 const AboutMe = () => {
-  const {heroId = defaultHero} = useParams();
-  const heroExists = heroId in characters;
-  const {changeHero} = useContext(SWContext);
   const [hero, setHero] = useState<HeroInfo>();
+  const {heroId = defaultHero} = useParams();
+  const {changeHero} = useContext(SWContext);
 
   useEffect(() => {
-    if (!heroExists) {
+    if (!(heroId in characters)) {
       return;
     }
     changeHero(heroId);
@@ -38,26 +37,23 @@ const AboutMe = () => {
             payload: info,
             timestamp: Date.now()
           }));
-        });
+        })
     }
-  }, [heroId, changeHero, heroExists]);
+  }, [heroId])
 
-  if (!heroExists) {
-    return <ErrorPage/>;
-  }
-
-
-  return (
+  return (heroId in characters) ? (
     <>
       {(!!hero) &&
         <div className={'text-[2em] text-justify tracking-widest leading-14 ml-8'}>
           {Object.keys(hero).map(key => <p key={key}>
-            <span className={'text-3xl capitalize'}>{key.replace('_', ' ')}</span>: {hero[key as keyof HeroInfo]}
+                        <span
+                          className={'text-3xl capitalize'}
+                        >{key.replace('_', ' ')}</span>: {hero[key as keyof HeroInfo]}
           </p>)}
         </div>
       }
     </>
-  );
+  ) : <ErrorPage />;
 };
 
 export default AboutMe;
