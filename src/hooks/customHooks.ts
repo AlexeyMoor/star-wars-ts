@@ -6,16 +6,18 @@ import {SWContext} from "../utils/context.ts";
 export const useValidHero = () => {
   const {heroId = defaultHero} = useParams();
   const {changeHero} = useContext(SWContext);
+  const isValid = heroId in characters;
 
   useEffect(() => {
-    if (!(heroId in characters)) {
-      return;
+    if (isValid) {
+      changeHero(heroId);
+    } else {
+      changeHero('');
     }
-    changeHero(heroId);
-  }, [heroId])
+  }, [heroId, isValid, changeHero]);
 
   return {
     heroId,
-    isValid: heroId in characters
+    isValid,
   }
 }

@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <header className="rounded-t-3xl bg-grey">
       <Navigation />
-      <h1 className="text-center py-6 text-4xl">{characters[hero].name}</h1>
+      <h1 className="text-center py-6 text-4xl">{hero in characters ? characters[hero].name : 'Error'}</h1>
     </header>
   );
 };
